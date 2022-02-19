@@ -39,7 +39,7 @@ const Login = (props) => {
   // const [enteredPassword, setEnteredPassword] = useState("");
   // const [passwordIsValid, setPasswordIsValid] = useState();
   const [formIsValid, setFormIsValid] = useState(false);
-  // The code for the form validity using only useState is not optimal, because it relays on OTHER states, so we will use useEffect instead. after updating it use the new code used in useReducer.
+  // The code for the form validity using only useState is not optimal, because it relays on OTHER states, so we will use useEffect along side. after updating it use the new code used in useReducer.
 
   const [emailState, dispatchEmail] = useReducer(emailReducer, {
     value: "",
@@ -60,12 +60,18 @@ const Login = (props) => {
     };
   }, []);
 
+
+  // Now we are presented with another problem with code block below. The validity check will keep running every time the passwordState obj changes, even if the email and password inputted were already valid. To solve this issue we will use OBJECT Destructuring:
+  // similar to array destructuring, and we will the ALIAS syntax. isValid is the property name, and on the right of it the alias. This is an alias assignment NOT a value assignment
+  const { isValid: emailIsValid } = emailState;
+  const { isValid: passwordIsValid } = passwordState;
+
   // This will guarantee it will re-run(with the lates state values) despite its dependency on other states
   useEffect(() => {
     const identifier = setTimeout(() => {
       console.log('Checking form validity!');
       setFormIsValid(
-        emailState.isValid && passwordState.isValid
+        emailIsValid && passwordIsValid
       );
     }, 500);
 
@@ -73,7 +79,8 @@ const Login = (props) => {
       console.log('CLEANUP');
       clearTimeout(identifier);
     };
-  }, [emailState, passwordState]);
+    // Dependencies should be matched by the values and other way arround.
+  }, [emailIsValid, passwordIsValid]);
 
   const emailChangeHandler = (event) => {
     // setEnteredEmail(event.target.value);
