@@ -31,3 +31,10 @@ Generally, you'll know when you need to use useReducer(). Example: when using us
 - Can be helpful if we have more complex state updates. and differnt cases and actions that can change a state.
 
 Sometime we can use useState() on complex state management especially when combined with useEffect(), like in the LogIn.js code.
+
+# About React Context (Context API):
+Imagine a scenario where you have to lift the state up to the App() component because you need the states as props to be passed to and through multiple components. For example you forward props to the MainHeader component but don't use it there, instead you continue to forward it to the authentication component in mainheader(). This example is in this code.
+In bigger apps this chain of forwarding (prop chains) can get longer and longer.
+
+#### This is were React Context can help:
+- Component-wide, "behind-the-scenes" state storage.
