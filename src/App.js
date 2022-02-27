@@ -37,13 +37,16 @@ function App() {
     <AuthContext.Provider
       value={{
         isLoggedIn: isLoggedIn,
+        onLogout: logoutHandler
       }}
+      // Note: we are only using context in specific situation, like in the case of props being forwarded through a component that doesn't use it. In most other cases we use props.
     >
       <MainHeader 
       // isAuthenticated={isLoggedIn} we dont need anymore since we have AuthContext, no need to pass props for this purpose
       onLogout={logoutHandler} 
       />
       <main>
+        {/* Here we don't use contex because we directly use these props in the Login and Home compoenents */}
         {!isLoggedIn && <Login onLogin={loginHandler} />}
         {isLoggedIn && <Home onLogout={logoutHandler} />}
       </main>

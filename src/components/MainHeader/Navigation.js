@@ -3,7 +3,8 @@ import React, { useContext } from "react";
 import AuthContext from "../store/auth-context";
 import classes from "./Navigation.module.css";
 
-const Navigation = (props) => {
+// no need for props in Navigation anymore
+const Navigation = () => {
   // The .Consumer function takes a child as a function
   // the ctx argument is the context data from auth-context.js
   // instead of props.isLoggedIn we put ctx.isLoggedIn
@@ -29,7 +30,7 @@ const Navigation = (props) => {
               )}
               {ctx.isLoggedIn && (
                 <li>
-                  <button onClick={props.onLogout}>Logout</button>
+                  <button onClick={ctx.onLogout}>Logout</button>
                 </li>
               )}
             </ul>
