@@ -3,6 +3,7 @@ import React, { useState, useEffect, useReducer, useContext } from "react";
 import Card from "../UI/Card/Card";
 import classes from "./Login.module.css";
 import Button from "../UI/Button/Button";
+import Input from "../UI/Input/Input";
 import AuthContext from "../store/auth-context";
 
 // Note we created the func outside the component func. becuase the reducer func doesn't need any data defined inside the component
@@ -24,11 +25,11 @@ const emailReducer = (state, action) => {
 };
 
 const passwordReducer = (state, action) => {
-  if (action.type === 'USER_INPUT') {
-    return {value: action.val, isValid: action.val.trim().length > 6}
+  if (action.type === "USER_INPUT") {
+    return { value: action.val, isValid: action.val.trim().length > 6 };
   }
-  if (action.type === 'INPUT_BLUR') {
-    return {value: state.value, isValid: state.value.trim().length > 6}
+  if (action.type === "INPUT_BLUR") {
+    return { value: state.value, isValid: state.value.trim().length > 6 };
   }
   return { value: "", isValid: false };
 };
@@ -63,7 +64,6 @@ const Login = (props) => {
     };
   }, []);
 
-
   // Now we are presented with another problem with code block below. The validity check will keep running every time the passwordState obj changes, even if the email and password inputted were already valid. To solve this issue we will use OBJECT Destructuring:
   // similar to array destructuring, and we will the ALIAS syntax. isValid is the property name, and on the right of it the alias. This is an alias assignment NOT a value assignment
   const { isValid: emailIsValid } = emailState;
@@ -72,14 +72,12 @@ const Login = (props) => {
   // This will guarantee it will re-run(with the lates state values) despite its dependency on other states
   useEffect(() => {
     const identifier = setTimeout(() => {
-      console.log('Checking form validity!');
-      setFormIsValid(
-        emailIsValid && passwordIsValid
-      );
+      console.log("Checking form validity!");
+      setFormIsValid(emailIsValid && passwordIsValid);
     }, 500);
 
     return () => {
-      console.log('CLEANUP');
+      console.log("CLEANUP");
       clearTimeout(identifier);
     };
     // Dependencies should be matched by the values and other way arround.
@@ -100,7 +98,7 @@ const Login = (props) => {
 
   const passwordChangeHandler = (event) => {
     // setEnteredPassword(event.target.value);
-    dispatchPassword({type: 'USER_INPUT', val: event.target.value});
+    dispatchPassword({ type: "USER_INPUT", val: event.target.value });
 
     // setFormIsValid(
     //   // enteredEmail.includes("@") && event.target.value.trim().length > 6
@@ -118,7 +116,7 @@ const Login = (props) => {
   const validatePasswordHandler = () => {
     // setPasswordIsValid(enteredPassword.trim().length > 6);
     // This validation logic will be moved to the dispatch function
-    dispatchPassword({type: 'INPUT_BLUR'})
+    dispatchPassword({ type: "INPUT_BLUR" });
   };
 
   const submitHandler = (event) => {
@@ -137,7 +135,7 @@ const Login = (props) => {
             emailState.isValid === false ? classes.invalid : ""
           }`}
         >
-          <label htmlFor="email">E-Mail</label>
+          {/* <label htmlFor="email">E-Mail</label>
           <input
             type="email"
             id="email"
@@ -145,6 +143,15 @@ const Login = (props) => {
             value={emailState.value}
             onChange={emailChangeHandler}
             onBlur={validateEmailHandler}
+          /> */}
+          <Input
+            for="email"
+            label="E-Mail"
+            type="email"
+            id="email"
+            value={emailState.value}
+            onChangeHandler={emailChangeHandler}
+            onBlurHandler={validateEmailHandler}
           />
         </div>
         <div
@@ -153,7 +160,7 @@ const Login = (props) => {
             passwordState.isValid === false ? classes.invalid : ""
           }`}
         >
-          <label htmlFor="password">Password</label>
+          {/* <label htmlFor="password">Password</label>
           <input
             type="password"
             id="password"
@@ -161,6 +168,15 @@ const Login = (props) => {
             value={passwordState.value}
             onChange={passwordChangeHandler}
             onBlur={validatePasswordHandler}
+          /> */}
+          <Input
+            for="password"
+            label="Password"
+            type="password"
+            id="password"
+            value={passwordState.value}
+            onChangeHandler={passwordChangeHandler}
+            onBlurHandler={validatePasswordHandler}
           />
         </div>
         <div className={classes.actions}>
