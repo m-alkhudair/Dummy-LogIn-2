@@ -129,12 +129,12 @@ const Login = (props) => {
   return (
     <Card className={classes.login}>
       <form onSubmit={submitHandler}>
-        <div
+        {/* <div
           className={`${classes.control} ${
             // emailIsValid === false ? classes.invalid : ""
             emailState.isValid === false ? classes.invalid : ""
           }`}
-        >
+        > */}
           {/* <label htmlFor="email">E-Mail</label>
           <input
             type="email"
@@ -145,21 +145,21 @@ const Login = (props) => {
             onBlur={validateEmailHandler}
           /> */}
           <Input
-            for="email"
             label="E-Mail"
             type="email"
             id="email"
             value={emailState.value}
-            onChangeHandler={emailChangeHandler}
-            onBlurHandler={validateEmailHandler}
+            onChange={emailChangeHandler}
+            onBlur={validateEmailHandler}
+            isValid={emailIsValid}
           />
-        </div>
-        <div
+        {/* </div> */}
+        {/* <div
           className={`${classes.control} ${
             // passwordIsValid === false ? classes.invalid : ""
             passwordState.isValid === false ? classes.invalid : ""
           }`}
-        >
+        > */}
           {/* <label htmlFor="password">Password</label>
           <input
             type="password"
@@ -170,15 +170,15 @@ const Login = (props) => {
             onBlur={validatePasswordHandler}
           /> */}
           <Input
-            for="password"
             label="Password"
             type="password"
             id="password"
             value={passwordState.value}
-            onChangeHandler={passwordChangeHandler}
-            onBlurHandler={validatePasswordHandler}
+            onChange={passwordChangeHandler}
+            onBlur={validatePasswordHandler}
+            isValid={passwordIsValid}
           />
-        </div>
+        {/* </div> */}
         <div className={classes.actions}>
           <Button type="submit" className={classes.btn} disabled={!formIsValid}>
             Login
