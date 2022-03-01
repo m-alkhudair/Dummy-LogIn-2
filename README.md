@@ -38,3 +38,12 @@ In bigger apps this chain of forwarding (prop chains) can get longer and longer.
 
 #### This is were React Context can help:
 - Component-wide, "behind-the-scenes" state storage.
+
+### Limitations of context:
+You should't use context to configure components like UI buttons. Only use props. 
+- Props for configurations and context for state management across components or across entire app.
+React Context is **NOT** optimized for high frequency changes. ex: state changes every second.
+- For app wide state changes of high frequency: there is a better tool => redux
+React **should NOT be use to replace ALL** component communications and props.
+- Components should still be configured via props and short "prop chains" might **not** any replacement.
+
