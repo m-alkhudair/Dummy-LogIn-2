@@ -47,3 +47,7 @@ React Context is **NOT** optimized for high frequency changes. ex: state changes
 React **should NOT be use to replace ALL** component communications and props.
 - Components should still be configured via props and short "prop chains" might **not** any replacement.
 
+### To give credit to my instructor:
+This is the link to his complete React Course on Udemy
+https://www.udemy.com/course/react-the-complete-guide-incl-redux/learn/lecture/25599264?start=0#overview
+
