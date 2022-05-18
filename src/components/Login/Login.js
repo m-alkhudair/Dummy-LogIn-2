@@ -76,9 +76,10 @@ const Login = (props) => {
       setFormIsValid(emailIsValid && passwordIsValid);
     }, 500);
 
+    // the cleanup function runs before every new side effect funcitin execution, and before the component is removed. but is does not run befoe the very first time.
     return () => {
       console.log("CLEANUP");
-      clearTimeout(identifier);
+      clearTimeout(identifier); //this is to clear the timer. to allow our form validation to pause for 500 ms after a user stops typing. clearing the timer before setting a new one. this way we prevent thing like updating the state too frequently or sending too many http request causing unnecessary network traffic
     };
     // Dependencies should be matched by the values and other way arround.
   }, [emailIsValid, passwordIsValid]);

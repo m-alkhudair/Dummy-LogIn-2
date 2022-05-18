@@ -15,7 +15,7 @@ function App() {
   //   if (storedUserLoggedInInformation === "1") {
   //     setIsLoggedIn(true);
   //   }
-  // }, []);
+  // }, []); //without depenencies this will only run once, when the app starts,because the depenedies never changed because we have none.
 
   // const loginHandler = (email, password) => {
   //   // We should of course check email and password
