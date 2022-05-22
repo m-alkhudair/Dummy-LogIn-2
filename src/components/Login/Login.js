@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useReducer, useContext } from "react";
+import React, {
+  useState,
+  useEffect,
+  useReducer,
+  useContext,
+  useRef,
+} from "react";
 
 import Card from "../UI/Card/Card";
 import classes from "./Login.module.css";
@@ -55,6 +61,10 @@ const Login = (props) => {
   });
 
   const authCtx = useContext(AuthContext);
+
+  // using refs:
+  const emailInputRef = useRef();
+  const passwordInputRef = useRef();
 
   useEffect(() => {
     console.log("EFFECT RUNNING");
@@ -124,7 +134,19 @@ const Login = (props) => {
     event.preventDefault();
     // props.onLogin(enteredEmail, enteredPassword);
     // props.onLogin(emailState.value, passwordState.value);
-    authCtx.onLogin(emailState.value, passwordState.value);
+
+    // authCtx.onLogin(emailState.value, passwordState.value);
+    // adding the form validation:
+    if (formIsValid) {
+      authCtx.onLogin(emailState.value, passwordState.value);
+    } else if (!emailIsValid) {
+      // to check first if the email is valid, because if not we will highlight the email field. then if it is but the passward is invalid we will highlight the passward field
+      // for this to work we need to go back to Input.js and import the useImperatibeHandle hook
+      emailInputRef.current.focus();
+      // the focue() function is not the built in one its defined in Input.js
+    } else {
+      passwordInputRef.current.focus();
+    }
   };
 
   return (
@@ -136,7 +158,7 @@ const Login = (props) => {
             emailState.isValid === false ? classes.invalid : ""
           }`}
         > */}
-          {/* <label htmlFor="email">E-Mail</label>
+        {/* <label htmlFor="email">E-Mail</label>
           <input
             type="email"
             id="email"
@@ -145,15 +167,17 @@ const Login = (props) => {
             onChange={emailChangeHandler}
             onBlur={validateEmailHandler}
           /> */}
-          <Input
-            label="E-Mail"
-            type="email"
-            id="email"
-            value={emailState.value}
-            onChange={emailChangeHandler}
-            onBlur={validateEmailHandler}
-            isValid={emailIsValid}
-          />
+        <Input
+          ref={emailInputRef} //this wont work by itself because ref is only for real dom elements and its also a reserved name even if we use props. 
+          // We've set it up to work in Input.js
+          label="E-Mail"
+          type="email"
+          id="email"
+          value={emailState.value}
+          onChange={emailChangeHandler}
+          onBlur={validateEmailHandler}
+          isValid={emailIsValid}
+        />
         {/* </div> */}
         {/* <div
           className={`${classes.control} ${
@@ -161,7 +185,7 @@ const Login = (props) => {
             passwordState.isValid === false ? classes.invalid : ""
           }`}
         > */}
-          {/* <label htmlFor="password">Password</label>
+        {/* <label htmlFor="password">Password</label>
           <input
             type="password"
             id="password"
@@ -170,18 +194,24 @@ const Login = (props) => {
             onChange={passwordChangeHandler}
             onBlur={validatePasswordHandler}
           /> */}
-          <Input
-            label="Password"
-            type="password"
-            id="password"
-            value={passwordState.value}
-            onChange={passwordChangeHandler}
-            onBlur={validatePasswordHandler}
-            isValid={passwordIsValid}
-          />
+        <Input
+          ref={passwordInputRef} //this wont work by itself because ref is only for real dom elements and its also a reserved name
+           // We've set it up to work in Input.js
+          label="Password"
+          type="password"
+          id="password"
+          value={passwordState.value}
+          onChange={passwordChangeHandler}
+          onBlur={validatePasswordHandler}
+          isValid={passwordIsValid}
+        />
         {/* </div> */}
         <div className={classes.actions}>
-          <Button type="submit" className={classes.btn} disabled={!formIsValid}>
+          <Button
+            type="submit"
+            className={classes.btn}
+            // disabled={!formIsValid} //disabling the disable prop. to make the button always clickable. we will now add form validation to the submit handler
+          >
             Login
           </Button>
         </div>
